@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Link
+Name=Introductory Tutorial
+Name[en_GB]=Introductory Tutorial
+URL=file:///usr/local/bioinf/documentation/bio-linux/intro_course
+Comment[en_GB]=A short self-taught course to learn the basics of Bio-Linux
+Comment=A short self-taught course to learn the basics of Bio-Linux
+Icon=/usr/share/bio-linux-icons/nebc_piclogo_bl.png

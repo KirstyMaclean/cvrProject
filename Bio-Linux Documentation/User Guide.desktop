@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Type=Link
+Name[en_GB]=User Guide
+URL=file:///usr/local/bioinf/documentation/bio-linux/bl6_user_guide.html
+Comment[en_GB]=Guide to main administration tasks in Bio-Linux
+Name=User Guide
+Comment=Guide to main administration tasks in Bio-Linux
+Icon=/usr/share/bio-linux-icons/nebc_piclogo_bl.png
+StartupNotify=false

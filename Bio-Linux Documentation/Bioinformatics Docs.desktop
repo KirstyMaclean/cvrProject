@@ -1,0 +1,8 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Encoding=UTF-8
+Name=Bioinformatics Docs
+Icon=/usr/share/bio-linux-icons/nebc_piclogo_bl.png
+Type=Link
+URL=file:///var/www/bioinformatics/index.html
+StartupNotify=false

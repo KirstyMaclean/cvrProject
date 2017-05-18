@@ -1,0 +1,8 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Encoding=UTF-8
+URL=http://nebc.nerc.ac.uk
+Icon=/usr/share/bio-linux-icons/nebc_piclogo.png
+Name=NEBC Homepage
+Type=Link
