@@ -1,5 +1,7 @@
 
 use Bio::DB::EUtilities;
+use Bio::Tools::EUtilities;
+use Bio::Tools::EUtilities::Summary::Item;
 
 my $factory = Bio::DB::EUtilities->new(-eutil => 'esearch',
                                        -db     => 'sra',
@@ -21,15 +23,31 @@ my $factory = Bio::DB::EUtilities->new(-eutil => 'esummary',
                                        -db    => 'sra',
                                        -id    => \@ids);
 
+
 while (my $ds = $factory->next_DocSum) {
     print "ID: ",$ds->get_id,"\n";
+#parsing revelant data from XML
+while (my $item = $ds->next_Item) {
+            print "Name: ",$item->get_name,"\n";
+            print "Data: ",$item->get_content,"\n";
+            print "Type: ",$item->get_type,"\n";
+#        while (my $listitem = $ds->next_ListItem) {
+            # do stuff here...
+#            while (my $listitem = $ds->next_Structure) {
+                # do stuff here...
+#            }
+#        }
+    }
+
+
+
 
     # flattened mode
-    while (my $item = $ds->next_Item('flattened'))  {
+#    while (my $item = $ds->next_Item('flattened'))  {
         # not all Items have content, so need to check...
-        printf("%-20s:%s\n",$item->get_name,$item->get_content)
-          if $item->get_content;
-    }
+#        printf("%-20s:%s\n",$item->get_name,$item->get_content)
+#          if $item->get_content;
+#    }
 
     print "\n";
 }
