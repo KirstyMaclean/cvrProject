@@ -35,10 +35,34 @@ d$Date <- as.numeric(format(d$Date, "%Y"))
 d$Date <- as.factor(d$Date)
 dateCount <- count(d$Date)
 
-#organism name curation
+#organism name curation from NCBI taxonomy due to poor sra reliability.
+dfUniTax <- c(unique(d$TaxID))
+dfUniTax <- na.omit(dfUniTax)
+
+#writing all taxonomic ID's to txt
+write(dfUniTax, file="TaxID.txt", sep = "\n")
+
+##run perl script TaxID.pl *subject to name change.
+
+#read in new file with NCBI taxonomy's scientific name and merge with Organism column *subject to change.
+taxMerg<-read.csv("NCBItaxID.txt",header=TRUE, sep="\t", 
+                  quote = "", na.strings = c("", "NA", "n/a"))
+d <- merge(d, taxMerg, by.x = "Organism", by.y = "NCBI.Scientific.Name")
+d <- merge(d, taxMerg)
 Organismcount <- count(d$Organism)
 
-d$Organism<-sub("9606", "Homo sapiens", d$Organism)
-d$Organism<-sub("10090", "Mus musculus", d$Organism)
-d$Organism<-sub("4530", "Oryza sativa", d$Organism)
-d$Organism<-sub("112509", "Hordeum vulgare subsp. vulgare", d$Organism)
+
+#addition of Lineage and organism common name#
+#WORKING PROGRESS# -fix script monday.
+
+#library selection curation
+d$LibrarySelection <- sub("other", "OTHER", d$LibrarySelection)
+d$LibrarySelection <- sub("repeat fractionation", "Fractionation", d$LibrarySelection)
+d$LibrarySelection <- sub("size fractionation", "Fractionation", d$LibrarySelection)
+d$LibrarySelection <- sub("RANDOM", "RANDOM PCR", d$LibrarySelection)
+d$LibrarySelection <- sub("PCR", "RT-PCR", d$LibrarySelection)
+#location curation# 
+#WORKING PROGRESS#
+#use google api, google map services python or r google map making - mondays job.
+Center <- d$Center
+CenterCount <-count(Center)
