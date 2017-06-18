@@ -1,5 +1,3 @@
-use strict;
-use warnings;
 use Bio::DB::EUtilities;
 #creating array
 my @tArray;
@@ -14,7 +12,7 @@ while(<$fh>) {
 close $fh;
 
 #printing the header for text file
-print "NCBI Scientific Name\tTaxonomic ID\n";
+print "NCBI Scientific Name\tCommon Name\tLineage\tTaxonomic ID\n";
 
 #for each taxonomic ID search NCBI taxonomic database for Scientific Name.
 foreach my $tArray(@tArray)
@@ -25,8 +23,12 @@ my $factory = Bio::DB::EUtilities->new(-eutil => 'esummary',
                                        -email => '2023085m@student.gla.ac.uk',
                                        -db    => 'taxonomy',
                                        -id    => $id );
+#BROKEN ATM parse out Scientific Name, Common Name and Lineage#
+my ($SciName) = $factory->next_DocSum->get_contents_by_name('ScientificName');
+my ($ComName) = $factory->next_DocSum->get_contents_by_name('CommonName'); #ERROR MESSAGE: Can't call method "get_contents_by_name" on an undefined value 
+my ($Lineage) = $factory->next_DocSum->get_contents_by_name('Lineage');
+$Lineage=~s/\t//g; #ensure tabs are ignored in Lineage data 
 
-my ($name) = $factory->next_DocSum->get_contents_by_name('ScientificName');
-#printing name and ID
-print "$name\t$id\n";
+#printing 
+print "$SciName\t$ComName\t$Lineage\t$id\n";
 }
