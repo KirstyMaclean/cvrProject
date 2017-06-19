@@ -24,9 +24,11 @@ my $factory = Bio::DB::EUtilities->new(-eutil => 'esummary',
                                        -db    => 'taxonomy',
                                        -id    => $id );
 #BROKEN ATM parse out Scientific Name, Common Name and Lineage#
-my ($SciName) = $factory->next_DocSum->get_contents_by_name('ScientificName');
-my ($ComName) = $factory->next_DocSum->get_contents_by_name('CommonName'); #ERROR MESSAGE: Can't call method "get_contents_by_name" on an undefined value 
-my ($Lineage) = $factory->next_DocSum->get_contents_by_name('Lineage');
+my $summary=$factory->next_DocSum;
+
+my ($SciName) = $summary->get_contents_by_name('ScientificName');
+my ($ComName) = $summary->get_contents_by_name('CommonName'); #ERROR MESSAGE: Can't call method "get_contents_by_name" on an undefined value 
+my ($Lineage) = $summary->get_contents_by_name('Lineage');
 $Lineage=~s/\t//g; #ensure tabs are ignored in Lineage data 
 
 #printing 
