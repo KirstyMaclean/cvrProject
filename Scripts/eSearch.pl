@@ -16,19 +16,38 @@ $output = get($url);
 $web = $1 if ($output =~ /<WebEnv>(\S+)<\/WebEnv>/);
 $key = $1 if ($output =~ /<QueryKey>(\d+)<\/QueryKey>/);
 
-### include this code for ESearch-ESummary
-#assemble the esummary URL
+### include this code for ESearch-ESummary assemble the esummary URL
 $url = $base . "esummary.fcgi?db=$db&query_key=$key&WebEnv=$web";
 
 #post the esummary URL
 $docsums = get($url);
 print "$docsums";
 
+#XML Parser
+#use XML::Parser;
+#
+#$datas = get($docsums);
+
+#$parser = new XML::Parser ( Handlers => (
+#				Start => \&hdl_start,				
+#				End => \&hdl_end,
+#				Char => \&hdl_char,
+#				Default => \&hdl_def,
+#			      ));
+#$parser -> parse($datas);
+#print "$parser";
+ 	 			
+
 ### include this code for ESearch-EFetch
 #assemble the efetch URL
 $url = $base . "efetch.fcgi?db=$db&query_key=$key&WebEnv=$web";
 $url .= "&rettype=full&retmode=xml";
 
+
+
 #post the efetch URL
 $data = get($url);
+
+
+
 print "$data";

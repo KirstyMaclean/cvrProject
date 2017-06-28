@@ -12,7 +12,7 @@ while(<$fh>) {
 close $fh;
 
 #printing the header for text file
-print "Taxonomic ID\tNCBI Scientific Name\tCommon Name\tDivision\tGenus\tSpecies\tSubspecies\n";
+print "NCBI Scientific Name,Common Name,Division,Genus,Species,Subspecies,Taxonomic ID\n";
 
 #for each taxonomic ID search NCBI taxonomic database for Scientific Name.
 foreach my $tArray(@tArray)
@@ -39,5 +39,5 @@ my ($Subsp) = $summary->get_contents_by_name('Subsp');
 
 #printing 
 
-print "$id\t$SciName\t$ComName\t$diV\t$Genus\t$Species\t$Subsp\n";
+print "$SciName,$ComName,$diV,$Genus,$Species,$Subsp,$id\n";
 }
