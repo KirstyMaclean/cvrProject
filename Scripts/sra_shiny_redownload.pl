@@ -15,7 +15,7 @@ my $factory = Bio::DB::EUtilities->new(-eutil => 'esearch',
 #print "Query translation: ",$factory->get_query_translation,"\n";
 
 # query hits
-print "Count = ",$factory->get_count,"\n";
+#print "Count = ",$factory->get_count,"\n";
 
 #Creates a variable equal to the no. of query hits
 my $count = $factory->get_count;
@@ -33,7 +33,7 @@ my $factory = Bio::DB::EUtilities->new(-eutil => 'esummary',
 print "ID\tStudyAcc\tSubmitterAcc\tTaxID\tOrganism\tDate\tUpdateDate\tCompany\tModel\tBases\tDescription\tDesign\tCenter\tContactName\tLaboratory\tLibraryName\tLibraryStrategy\tLibrarySource\tLibrarySelection\tbioProj\tbioSample\n";
 
 #the code will iterate when the retstart is less that the total hit count.
-my $retry = 0; my ($retmax, $retstart) = (50,0);
+my $retry = 0; my ($retmax, $retstart) = (5000,0);
 while ($retstart < $count) {
     $factory->set_parameters(-retmax => $retmax,
                              -retstart => $retstart);
