@@ -23,7 +23,7 @@ my $factory = Bio::DB::EUtilities->new(-eutil => 'esummary',
                                        -email => '2023085m@student.gla.ac.uk',
                                        -db    => 'sra',
 					-history => $hist);
-print "Id\tStudyAcc\tOrganism\tDate\tUpdateDate\tPlatform\tModel\tBases\tDesign\tDescription\n";
+#print "Id\tStudyAcc\tOrganism\tDate\tUpdateDate\tPlatform\tModel\tBases\tDesign\tDescription\n";
 my $retry = 0; my ($retmax, $retstart) = (7000,0);
 while ($retstart < $count) {
     $factory->set_parameters(-retmax => $retmax,
@@ -61,18 +61,42 @@ if ($name="CreateDate"){
 	$date=$item->get_content;
 	$date1=$item->get_content;
 }
-
+if($data=~/\<Submitter acc\=\"(.+)\" center_name\=\"(.+)\" contact_name\=\"(.+)\" lab_name\=\"(.+)\"\/><Experiment/)
+{
+ $submitter=$1;
+ $submitter=~s/\t//g;
+ $center=$2;
+ $center=~s/\t//g;
+ $contact=$3;
+ $contact=~s/\t//g;
+ $lab=$4;
+ $lab=~s/\t//g;
+}
 if($data=~/\<Study acc\=\"(.+)\" name\=\"(.+)\"\/\>\<Organism taxid\=\"(.+)\" CommonName\=\"(.+)\"\/\>\<Sample/){
 	$study=$1;
 	$study=~s/\t//g;
 	$des=$2;
 	$des=~s/\t//g;
+	$taxId=$3;
+	$taxId=~s/\t//g;
 	$organ=$4;
 	$organ=~s/\t//g;		
 }	
-} 
-print "$id\t$study\t$organ\t$date\t$date1\t$platform\t$model\t$bases\t$design\t$des\n";
+#if ($data=~/\<LIBRARY_NAME\>(.+)\</LIBRARY_NAME>\<LIBRARY_STRATEGY\>(.+)\</LIBRARY_STRATEGY>\<LIBRARY_SOURCE\>(.+)\</LIBRARY_SOURCE>\<LIBRARY_SELECTION\>(.+)\</LIBRARY_SELECTION>\<LIBRARY_LAYOUT/)
+#{
+#$libName=$1;
+#$libStrat=$2;
+#$libSelect=$3;
 
+#}
+if($data=~/\<Bioproject\>(.+)\<\/Bioproject\>\<Biosample\>(.+)\<\/Biosample>/)
+{
+$bioProj=$1;
+$bioSample=$2;
+}
+} 
+#print "$id\t$study\t$organ\t$date\t$date1\t$platform\t$model\t$bases\t$design\t$des\n";
+print "$bioProject\t$bioSample\t$submitter\t$lab";
 
 
 }

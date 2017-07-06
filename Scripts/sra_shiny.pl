@@ -26,12 +26,13 @@ my $factory = Bio::DB::EUtilities->new(-eutil => 'esummary',
                                        -email => '2023085m@student.gla.ac.uk',
                                        -db    => 'sra',
 					-history => $hist);
+my  $ID;
 
 #the header for the text document, tab seperated.
-print "ID\tStudyAcc\tSubmitterAcc\tTaxID\tOrganism\tDate\tUpdateDate\tCompany\tModel\tBases\tDescription\tDesign\tCenter\tContactName\tLaboratory\tLibraryName\tLibraryStrategy\tLibrarySource\tLibrarySelection\tbioProj\tbioSample\n";
+print "ID\tStudyAcc\tSubmitterAcc\tTaxID\tOrganism\tNCBIname\tDate\tUpdateDate\tCompany\tModel\tBases\tDescription\tDesign\tCenter\tContactName\tLaboratory\tLibraryName\tLibraryStrategy\tLibrarySource\tLibrarySelection\tbioProj\tbioSample\n";
 
 #the code will iterate when the retstart is less that the total hit count.
-my $retry = 0; my ($retmax, $retstart) = (27000,0);
+my $retry = 0; my ($retmax, $retstart) = (10000,0);
 while ($retstart < $count) {
     $factory->set_parameters(-retmax => $retmax,
                              -retstart => $retstart);
@@ -56,8 +57,9 @@ close $out;
 while (my $ds = $factory->next_DocSum){
 
   #variables
-  my ($id,$name,$design,$platform,$model,$bases,$date,$des,$study);
+my ($NCBIname,$ID,$taxId,$id,$name,$design,$platform,$model,$bases,$date,$des,$study);
   $id=$ds->get_id;
+
   
 while (my $item = $ds->next_Item) {
      $name=$item->get_name;
@@ -65,12 +67,12 @@ while (my $item = $ds->next_Item) {
 
 #code to parse out design, model, platform and bases.
 if($data=~/\<Summary><Title\>(.+)\<\/Title\>\<Platform instrument_model\=\"(.+)\"\>(.+)\<\/Platform\>\<Statistics total_runs\=\"(.+)\" total_spots\=\"(.+)\" total_bases\=\"(.+)\" total_size/){     
-  $design=$1;
-	$design=~s/\t//g;
-      $model=$2;
-       $platform=$3;
-	$platform=~s/\t//g;
-	$bases=$6;
+	  $design=$1;
+	  $design=~s/\t//g;
+          $model=$2;
+          $platform=$3;
+	  $platform=~s/\t//g;
+	  $bases=$6;
 }
 #parsing out create date and update date      
 if ($name="CreateDate"){
@@ -99,6 +101,9 @@ if($data=~/\<Study acc\=\"(.+)\" name\=\"(.+)\"\/\>\<Organism taxid\=\"(.+)\" Co
 	$taxId=~s/\t//g;
 	$organ=$4;
 	$organ=~s/\t//g;		
+
+$ID = $taxID;
+#print "$ID
 }	
 #parsing out library name, library strategy, library source and library selection
 if ($data=~/\<LIBRARY_NAME\>(.+)\<\/LIBRARY_NAME>\<LIBRARY_STRATEGY\>(.+)\<\/LIBRARY_STRATEGY>\<LIBRARY_SOURCE\>(.+)\<\/LIBRARY_SOURCE>\<LIBRARY_SELECTION\>(.+)\<\/LIBRARY_SELECTION>\<LIBRARY_LAYOUT/)
@@ -115,11 +120,23 @@ if($data=~/\<Bioproject\>(.+)\<\/Bioproject\>\<Biosample\>(.+)\<\/Biosample>/)
 $bioProj=$1;
 $bioSample=$2;
 }
-} 
+}}
+#@ID = $taxId;
+#print "$ID\n";
+#my $factory = Bio::DB::EUtilities->new(-eutil => 'esummary',
+#                                  -email => '2023085m@student.gla.ac.uk',
+ #                              -db    => 'taxonomy',
+  #                          -id    => @ID );
+
+#my ($NCBIname) = $factory ->next_DocSum->get_contents_by_name('ScientificName');
+
+#print "$NCBIname\n";
+
+
+
+ 
 #printing variables for each submission in the SRA.
-print "$id\t$study\t$submitter\t$taxId\t$organ\t$date\t$date1\t$platform\t$model\t$bases\t$des\t$design\t$center\t$contact\t$lab\t$libName\t$libStrat\t$libSource\t$libSelect\t$bioProj\t$bioSample\n";
+print "$id\t$study\t$submitter\t$taxId\t$organ\tNCBIname\t$date\t$date1\t$platform\t$model\t$bases\t$des\t$design\t$center\t$contact\t$lab\t$libName\t$libStrat\t$libSource\t$libSelect\t$bioProj\t$bioSample\n";
 
-
-}
 
 }

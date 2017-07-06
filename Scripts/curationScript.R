@@ -5,6 +5,11 @@ library('plyr')
 #read in .txt file downloaded from SRA
 d<- read.csv("sra_shinydata.txt", header=TRUE, sep="\t", quote= "", na.strings=c("NA", "", "n/a"))
 
+#read in the bi-monthly updated data
+ud <- read.csv("newestdata.txt", header=TRUE, sep="\t", quote="", na.strings=c("NA", "", "n/a"))
+
+#merge the large data file with newest update
+d <- rbind(d, ud)
 
 #curation of the platform's (models)
 d$Model <- sub("454.*", "454 GS", d$Model)

@@ -18,7 +18,7 @@ print "NCBI Scientific Name,Common Name,Division,Genus,Species,Subspecies,Taxono
 foreach my $tArray(@tArray)
 {
 my $id = $tArray;
-
+print "$id";
 my $factory = Bio::DB::EUtilities->new(-eutil => 'esummary',
                                        -email => '2023085m@student.gla.ac.uk',
                                        -db    => 'taxonomy',
@@ -39,5 +39,5 @@ my ($Subsp) = $summary->get_contents_by_name('Subsp');
 
 #printing 
 
-print "$SciName,$ComName,$diV,$Genus,$Species,$Subsp,$id\n";
+#print "$SciName,$ComName,$diV,$Genus,$Species,$Subsp,$id\n";
 }
