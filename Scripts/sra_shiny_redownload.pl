@@ -7,7 +7,7 @@ my $factory = Bio::DB::EUtilities->new(-eutil => 'esearch',
                                        -db     => 'sra',
                                        -term   => 'public OR controlled',
                                        -email  => '2023085m@student.gla.ac.uk',
-					-reldate => '14',
+					-reldate => '7',
 					-datetype => 'pdat', #publication date			        
 					-usehistory => 'y');
 
