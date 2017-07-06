@@ -1,0 +1,4 @@
+ID	StudyAcc        SubmitterAcc    TaxID   Organism        Date    UpdateDate	Company Model   Bases   Description     Design  Center  ContactName     Laboratory	LibraryName     L$
+4245048 ERP023878	ERA970456	3702    thale cress     2017/07/02	2017/07/02	CAPILLARY	AB 3730xL Genetic Analyzer	28170   A genome-wide transcriptome and translato$
+4245047 ERP023878	ERA970456	3702    thale cress     2017/07/02	2017/07/02	CAPILLARY	AB 3730xL Genetic Analyzer	85638   A genome-wide transcriptome and translato$
+
