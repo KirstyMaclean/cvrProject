@@ -1,6 +1,7 @@
 use Bio::DB::EUtilities;
 use Bio::Tools::EUtilities;
 use Bio::Tools::EUtilities::Summary::Item;
+use IO::Socket::SSL;
 
 #searches the SRA database for every entry in the past 13 days
 my $factory = Bio::DB::EUtilities->new(-eutil => 'esearch',

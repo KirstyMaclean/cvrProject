@@ -2,11 +2,17 @@
 #install required libraries
 library('plyr')
 
-d<- read.csv("completedata.txt", header=TRUE, sep="\t", quote= "", na.strings=c("NA", "", "n/a"))
+
+d<- read.csv("completedata.txt", header=TRUE, sep="\t", na.strings=c("NA", "", "n/a"),encoding="UTF-8")
 
 #read in new file with NCBI taxonomy's scientific name and merge with Organism column *subject to change.
-taxMerg1<-read.csv("taxonData.txt",header=TRUE, sep=",", quote = "", na.strings=c("NA", "", "n/a"))
-d2 <- merge(d, taxMerg1, by.x='X.TaxID.', by.y= 'Taxonomic.ID')
+taxMerg1<-read.csv("taxonData.txt",header=TRUE, na.strings=c("NA", "", "n/a"))
+#print(names(taxMerg1))
+#print(names(d))
+d2 <- merge(d, taxMerg1, by.x='TaxID', by.y= 'Taxonomic.ID')
+print(names(d2))
+
+
 #testing counts
 OrganismcountTest <- count(d$Organism)
 Organismcount <- count(d2$NCBI.Scientific.Name)
@@ -16,6 +22,8 @@ CommonName <-count(d2$Common.Name)
 
 #use google api, google map services python or r google map making - mondays job.
 Center <- d2$Center
+#print(d2$Center)
+
 CenterCount <-count(Center)
 #Curation for top 100, will go back later if time permits.
 d2$Center <- sub("BI", "Broad Institute, MA 02142", d2$Center)
@@ -29,7 +37,7 @@ d2$Center <- sub("UMIGS", "University of Maryland Institute for Genomic Sciences
 d2$Center <- sub("CCME-COLORADO", "Colorado Center of Medical Excellence", d2$Center)
 d2$Center <- sub("IBSC", "International Barley Sequencing Consortium, US, Germany, UK, Finland, Australia and Japan", d2$Center)
 d2$Center <- sub("USC", "University of Southern California", d2$Center)
-d2$Center <- sub("INRA", "French National Institute for Agricultural Research")
+d2$Center <- sub("INRA", "French National Institute for Agricultural Research",d2$Center)
 d2$Center <- sub("OSAKAMED", "Osaka Medical School", d2$Center)
 d2$Center <- sub("PHE", "Public Health England, SE1 8UG", d2$Center)
 d2$Center <- sub("Texas A&amp;M University", "Texas A&M Univiersity", d2$Center)
@@ -44,10 +52,11 @@ d2$Center <- sub("KYOTO_HE", "Kyoto Unviersity, Japan", d2$Center)
 d2$Center <- sub("RIKEN_OSC", "RIKEN Yokohama Institute Yokohama Research Promotion Division", d2$Center)
 d2$Center <- sub("Nutrition &amp; Health", "Nutrition & Health", d2$Center)
 
-d2$Center <- str_replace_all(d2$Center,"é", "e")
+#d2$Center <- str_replace_all(d2$Center,"é", "e")
 
 
 Center <- d2$Center
+
 CenterCount <-count(Center)
 #saving to file, to run via R script ggmaps to find co-ords from google maps.
 d2UniCenter <- c(unique(d2$Center))
@@ -57,7 +66,8 @@ d2UniCenter <- na.omit(d2UniCenter)
 write(d2UniCenter, file="Center.txt", sep = "\n")
 
 
-#save cuarated data so far.
-write(d2, "completedata.txt", sep="\t", row.names=TRUE)
+
+write.table(d2, "completedata.txt", sep="\t", row.names=FALSE)
+
 
 

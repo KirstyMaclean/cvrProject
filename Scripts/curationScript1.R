@@ -1,14 +1,19 @@
 #---------------------CURATION SCRIPT--------------------------#
+#INPUT : newestdata.txt
+#OUTPUT: completedata.txt AND TaxID.txt
+
 #install required libraries
 library('plyr')
 library('stringr')
 
 #read in .txt file downloaded from SRA
-d<- read.csv("sra_shinydata.txt", header=TRUE, sep="\t", quote= "", na.strings=c("NA", "", "n/a"))
+#d<- read.csv("sra_shinydata.txt", header=TRUE, sep="\t", quote= "", na.strings=c("NA", "", "n/a"))
 ud <-read.csv("newestdata.txt", header=TRUE, sep="\t", quote="", na.strings=c("NA", "", "n/a"))
 
 #merge the large data file with newest update
-d1 <- rbind(d, ud)
+#d1 <- rbind(d, ud)
+d1 <- ud
+
 
 #curation of the platform's (models)
 d1$Model <- sub("454.*", "454 GS", d1$Model)
@@ -52,10 +57,11 @@ d1$Description <- str_replace_all(d1$Description,"_"," ")
 d1$Design <- str_replace_all(d1$Design, "-", " ")
 
 #write to txt file to add in to script later on.
-write.table(d1, "completedata.txt", sep="\t", row.names = TRUE)
+write.table(d1, "completedata.txt", sep="\t", row.names = FALSE)
 
 #organism name curation from NCBI taxonomy due to poor sra reliability.
-dfUniTax <- c(unique(d$TaxID))
+dfUniTax <- c(unique(d1$TaxID))
+
 dfUniTax <- na.omit(dfUniTax)
 
 #writing all taxonomic ID's to txt
