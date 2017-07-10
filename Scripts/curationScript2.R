@@ -1,4 +1,7 @@
 #---------------------CURATION SCRIPT--------------------------#
+#INPUT FILES: taxonData.txt AND curationcenter.txt AND completedata.txt
+#OUTPUT FILES: Center.txt and completedata.txt 
+
 #install required libraries
 library('plyr')
 

@@ -1,4 +1,7 @@
 #SCRIPT 3: Merge of Center's and Writing out to file
+#INPUT FILES: sra_shinydata.txt AND completedata.txt and ggmap.txt
+#OUTPUT FILES: ShinyData.txt
+
 library('dplyr')
 
 d<- read.csv("completedata.txt", header=TRUE, sep="\t", quote= "", na.strings=c("NA", "", "n/a"))

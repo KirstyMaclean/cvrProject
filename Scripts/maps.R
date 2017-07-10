@@ -1,11 +1,10 @@
 #load up the ggmap library
 library(ggmap)
 # get the input data
-infile <- "Center"
-data <- read.csv(paste0(infile, '.txt'), header=FALSE, sep="\n")
 
-# get the address list, and append "Ireland" to the end to increase accuracy 
-# (change or remove this if your address already include a country etc.)
+data <- read.csv('Center.txt', header=FALSE, sep="\n")
+
+
 addresses = data$V1
 typeof(addresses)
 addresses <- as.character(addresses)
@@ -24,8 +23,10 @@ getGeoDetails <- function(address){
     time <- Sys.time()
     print(as.character(time))
     Sys.sleep(60*60)
-    geo_reply = geocode(address, output='all', messaging=TRUE, override_limit=TRUE)
+    geo_reply = geocode(na.omit(address, output='all', messaging=TRUE, override_limit=TRUE))
     answer$status <- geo_reply$status
+
+#GeoData <- ggmap::geocode(na.omit(Zips))
   }
   
   #return Na's if we didn't get a match:
@@ -50,7 +51,7 @@ geocoded <- data.frame()
 # find out where to start in the address list (if the script was interrupted before):
 startindex <- 1
 #if a temp file exists - load it up and count the rows!
-tempfilename <- paste0(infile, '_temp_geocoded.rds')
+tempfilename <-('Center_temp_geocoded.rds')
 if (file.exists(tempfilename)){
   print("Found temp file - resuming from index:")
   geocoded <- readRDS(tempfilename)
@@ -77,5 +78,5 @@ data$long <- geocoded$long
 data$accuracy <- geocoded$accuracy
 
 #finally write it all to the output files
-saveRDS(data, paste0("../data/", infile ,"_geocoded.rds"))
-write.table(data, file=paste0("../data/", infile ,"_geocoded.csv"), sep=",", row.names=FALSE)
+saveRDS(data, "Center_geocoded.rds")
+write.table(data, "Center_geocoded.csv", sep=",", row.names=FALSE)
