@@ -39,5 +39,5 @@ my ($Subsp) = $summary->get_contents_by_name('Subsp');
 
 #printing 
 
-#print "$SciName,$ComName,$diV,$Genus,$Species,$Subsp,$id\n";
+print "$SciName,$ComName,$diV,$Genus,$Species,$Subsp,$id\n";
 }

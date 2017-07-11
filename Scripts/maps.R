@@ -1,7 +1,10 @@
 #load up the ggmap library
 library(ggmap)
-# get the input data
+#Script adapted from shanelynn.ie/massive-geocoding-with-r-and-google-maps/
+#INPUT: Center.txt
+#OUTPUT: Center_geocoded.csv
 
+# get the input data
 data <- read.csv('Center.txt', header=FALSE, sep="\n")
 
 
@@ -14,7 +17,11 @@ getGeoDetails <- function(address){
   #use the gecode function to query google servers
   geo_reply = geocode(address, output='all', messaging=TRUE, override_limit=TRUE)
   #now extract the bits that we need from the returned list
-  answer <- data.frame(lat=NA, long=NA, accuracy=NA, formatted_address=NA, address_type=NA, status=NA)
+  answer <- data.frame(lat=NA, long=NA, accuracy=NA, formatted_address=NA, address_type=NA, status=NA
+  
+  )
+  
+
   answer$status <- geo_reply$status
   
   #if we are over the query limit - want to pause for an hour
@@ -23,15 +30,15 @@ getGeoDetails <- function(address){
     time <- Sys.time()
     print(as.character(time))
     Sys.sleep(60*60)
-    geo_reply = geocode(na.omit(address, output='all', messaging=TRUE, override_limit=TRUE))
+    geo_reply = geocode(address, output='all', messaging=TRUE, override_limit=TRUE)
     answer$status <- geo_reply$status
 
 #GeoData <- ggmap::geocode(na.omit(Zips))
   }
   
-  #return Na's if we didn't get a match:
+  #return Na's if we didn't get a match
   if (geo_reply$status != "OK"){
-    return(answer)
+    return(failedGeocodeReturn(output))
   }   
   #else, extract what we need from the Google server reply into a dataframe:
   answer$lat <- geo_reply$results[[1]]$geometry$location$lat
@@ -76,6 +83,7 @@ for (ii in seq(startindex, length(addresses))){
 data$lat <- geocoded$lat
 data$long <- geocoded$long
 data$accuracy <- geocoded$accuracy
+data <- na.omit(data)
 
 #finally write it all to the output files
 saveRDS(data, "Center_geocoded.rds")
