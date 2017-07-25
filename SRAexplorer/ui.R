@@ -1,15 +1,15 @@
 library(shiny)
+#library(leaflet)
 
 #Define UI for application
 
 shinyUI(fluidPage(
   
   #Application title
-  titlePanel("SRAexplorer!"),
+  navbarPage("SRAexplorer!", id="nav",
   
-  sidebarLayout(
-    sidebarPanel("Contents"),
-    mainPanel(
+ 
+    tabPanel("Background",
       h3("What is the SRAexplorer?", align = "left"),
       p("The SRAexplorer is an application designed to", strong("visualise and explore"), "the data uploaded to NCBI's Sequence Read Archive (SRA). 
         The SRA is a bioinformatics database that provides a public repository for next generation sequencing data, especially the 'short reads'
@@ -17,9 +17,14 @@ shinyUI(fluidPage(
         of the data available."),
       img(dna="dna.jpg", height=200, width=200),
       br(),
-      h3("Features"),
-      p("*"),
-      p("*")
-    )
-  )
-))
+      h3("Features include..."),
+      p("*Interactive map to see what institutes upload to the SRA"),
+      p("*The length of reads uploaded over a certain length of time"),
+      p("*What Next Generation Sequencing platforms are the most popular"),
+      p("*What types of description of the projects being carried out")
+    ),
+    tabPanel("Interactive Map"),
+    tabPanel("Platform Histogram"),
+    tabPanel("Description Analysis")
+  ))
+)
