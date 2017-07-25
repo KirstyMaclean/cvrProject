@@ -23,8 +23,26 @@ shinyUI(fluidPage(
       p("*What Next Generation Sequencing platforms are the most popular"),
       p("*What types of description of the projects being carried out")
     ),
-    tabPanel("Interactive Map"),
+    tabPanel("Interactive Map",
+             titlePanel("Where submits to SRA?"),
+             
+             sidebarLayout(
+               sidebarPanel(
+                 helpText("Create demographic maps with 
+                          information from SRA."),
+                 
+                 selectInput("var", 
+                             label = "Choose a variable to display by experiment type",
+                             choices = c("All", "Genomic", "Metagenomic",
+                                         "Transcriptomic", "Other"),
+                             selected = "All")
+                 
+                
+                 ),
+               
+               mainPanel(plotOutput("map"))
+             ),
     tabPanel("Platform Histogram"),
     tabPanel("Description Analysis")
-  ))
+  )))
 )

@@ -1,8 +1,18 @@
+# server.R
 library(shiny)
+library(maps)
+library(mapproj)
 
-#Define server logic required 
-shinyServer(function(input, output) {
+source("helpers.R")
 
-  
-  
-})
+
+shinyServer(
+  function(input, output) {
+    
+    output$map <- renderPlot({
+      
+      percent_map()
+    })
+      
+  }
+    )
