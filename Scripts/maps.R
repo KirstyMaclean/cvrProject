@@ -38,7 +38,7 @@ getGeoDetails <- function(address){
   
   #return Na's if we didn't get a match
   if (geo_reply$status != "OK"){
-    return(failedGeocodeReturn(output))
+    return(answer)
   }   
   #else, extract what we need from the Google server reply into a dataframe:
   answer$lat <- geo_reply$results[[1]]$geometry$location$lat
@@ -83,7 +83,7 @@ for (ii in seq(startindex, length(addresses))){
 data$lat <- geocoded$lat
 data$long <- geocoded$long
 data$accuracy <- geocoded$accuracy
-data <- na.omit(data)
+#data <- na.omit(data)
 
 #finally write it all to the output files
 saveRDS(data, "Center_geocoded.rds")
