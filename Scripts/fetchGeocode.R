@@ -87,5 +87,5 @@ data$accuracy <- geocoded$accuracy
 #data <- na.omit(data)
 
 #finally write it all to the output files
-saveRDS(data, "Center_geocoded.rds")
-write.table(data, "Center_geocoded.csv", sep=",", row.names=FALSE)
+saveRDS(data, "center_Geocoded.rds")
+write.table(data, "center_Geocoded.csv", sep=",", row.names=FALSE)

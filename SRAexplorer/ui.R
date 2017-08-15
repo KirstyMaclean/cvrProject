@@ -1,15 +1,31 @@
 
 
 library(shiny)
+library(shinythemes)
 library(leaflet)
-
-#Define UI for application 
-shinyUI(fluidPage(
+ #Define UI for application 
+shinyUI(fluidPage(theme = shinytheme("cerulean"),
   #Appication title
    titlePanel("SRAexplorer!"),
   
-
-    
+  sidebarPanel(
+    h5("Overview Options"),
+    selectInput("year", "Choose a year:", choices=dateUniq),
+    actionButton("update", "change"),
+    br(), h5("Interactive Map Options"),  
+    selectInput("year", "Choose a year:", choices=dateUniq),
+    actionButton("update", "change"),
+    h5(strong("or")),
+    selectInput("library", "Choose sequencing data type", choices=libUniq),
+    actionButton("update", "change"),
+    br(),
+    h5("Taxonomic Specific Data options"),
+    selectInput("comOrg", "Choose a Organism (Common Name):", choices = comOrganism),
+    actionButton("update", "Change"),
+    sliderInput("freq", "Minimum Frequency:", min=1, max=100, value = 35),
+    sliderInput("max", "Maximum Number of Words:", min=1, max=300, value=100)
+  ),
+  
 
   
   mainPanel(
@@ -27,10 +43,17 @@ shinyUI(fluidPage(
                p("*What Next Generation Sequencing platforms are the most popular"),
                p("*What types of description of the projects being carried out")
                ),
-      tabPanel("Overview", h5(strong("Most popular platforms used for sequncing")),plotOutput("platform")),
+      tabPanel("Overview",p("Graphs displaying an overview of the 3SRA since it began back in 2007."), br(),h5(strong("The popularity of different sequencing companies")), plotOutput("company"), br(),
+               h5(strong("Most popular platforms used for sequncing")),plotOutput("platform"),br(),
+               h5(strong("Number of Datasets Submitted to SRA vs Organism Used")), plotOutput("pOrg"), br(),
+               h5(strong("Number of Bases Sequenced by Each Platform between 2008:2017")), plotOutput("base"), align= "center"),
+      
                
-      tabPanel("Interactive Map"),
-      tabPanel("Taxonomic Specific Data")
+      tabPanel("Interactive Map", leafletOutput("mymap"),
+               p()
+              ),
+      tabPanel("Taxonomic Specific Data", h5("Word Cloud for study descriptions of Organisms"),plotOutput("wcOrgan")
+              )
     )
   )
   
