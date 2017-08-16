@@ -10,7 +10,7 @@ library('plyr')
 library('base')
 
 #Read in large data file from Sequence Read Archive
-d<- read.csv("initialdownload.txt", header=TRUE, sep="\t", na.strings=c("NA", "", "n/a"))
+d<- read.csv("sra_weekly.txt", header=TRUE, sep="\t", na.strings=c("NA", "", "n/a"))
 
 #curation of the platform's (models)
 d$Model <- sub("454.*", "454 GS", d$Model)
@@ -112,3 +112,4 @@ write(dfUniTax, file="TaxID.txt", sep = "\n")
 
 #table with all the curation data
 write.table(d, "data.txt", sep="\t", row.names=FALSE)
+
