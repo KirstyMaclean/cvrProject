@@ -6,7 +6,7 @@ library(ggplot2)
 
 
 # input your data file
-dataset <- read.csv("ShinyData.txt", header= TRUE, sep="\t")
+dataset <- read.csv("completedata.txt", header= TRUE, sep=",")
 geocode <- read.table("geoMerge.txt", header=TRUE, sep="\t")
 geocode <- na.omit(geocode)
 
@@ -102,7 +102,7 @@ shinyUI(fluidPage(theme = shinytheme("cerulean"),
                       h5("Number of entries for specific organism by library source"),
                       plotOutput('libSourcePlot', height="500px"),
                       h5("Number of entries per year by specific organism"),
-                      plotOutput("orgYearPlot"),
+                      plotOutput("orgYearPlot")
                       
     # I used the line below to check whether the information was being passed and filtered - debug code -
     textOutput("text1")

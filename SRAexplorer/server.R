@@ -11,7 +11,7 @@ library(leaflet)
 
 
 # load you dataset
-dataset <- read.csv("ShinyData.txt", header= TRUE, sep="\t")
+dataset <- read.csv("completedata.txt", header= TRUE, sep=",")
 geocode <- read.table("geoMerge.txt", header=TRUE, sep="\t")
 geocode <- na.omit(geocode)
 
