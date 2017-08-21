@@ -1,8 +1,8 @@
 library(shiny)
 library(shinythemes)
 library(ggplot2)
-
-
+library(RColorBrewer)
+library(leaflet)
 
 
 # input your data file
@@ -105,7 +105,7 @@ shinyUI(fluidPage(theme = shinytheme("cerulean"),
                       plotOutput("orgYearPlot")
                       
     # I used the line below to check whether the information was being passed and filtered - debug code -
-    textOutput("text1")
+    #textOutput("text1")
  
     
     
