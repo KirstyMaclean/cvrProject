@@ -11,7 +11,7 @@ geocode <- read.table("geoMerge.txt", header=TRUE, sep="\t")
 geocode <- na.omit(geocode)
 
 #make for drop down menu to be in alphabetical order
-dataset <- with(dataset,  dataset[order(Common.Name) , ])
+dataset <- with(dataset,  dataset[order(dataset$Common.Name) , ])
 
 ## Define UI for application that plots random distributions
 
