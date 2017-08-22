@@ -11,10 +11,12 @@ library(leaflet)
 
 
 # load you dataset
-dataset <- read.csv("completedata.txt", header= TRUE, sep=",")
+dataset <- read.csv("completeData.txt", header= TRUE, sep=",", quote="\"")
 geocode <- read.table("geoMerge.txt", header=TRUE, sep="\t")
 geocode <- na.omit(geocode)
 
+dataset<-as.data.frame(dataset)
+#print(unique(dataset$Date))
 
 geocode <-geocode[order(-geocode$freq),]
 Top20 <- geocode[1:21,]
@@ -42,6 +44,7 @@ shinyServer(function(input,output) {
     if(input$y != 'All'){
       filtered<-filtered[filtered$Model==platformSelected,]
     }
+ 
     filtered
     })
   
@@ -64,7 +67,8 @@ shinyServer(function(input,output) {
   company = function(){
     # fetch the filtered dataset
     filtered<-reactfilter()
-    
+    filtered<-as.data.frame(filtered)
+    filtered$Model<-as.factor(filtered$Model)
     # create the ggplot
     p <- ggplot(filtered,aes(x=Model, y=Bases))+geom_bar(aes(fill=Model),stat="identity", width=0.5)+theme_minimal()
     p <- p + labs(x = "Model")
@@ -85,7 +89,8 @@ shinyServer(function(input,output) {
   orgYear = function(){
     #fetch the filtered dataset
     filtered<- reactfilter()
-    
+    filtered$Date<-as.factor(filtered$Date)
+    filtered<-na.omit(filtered)
     p<-ggplot(filtered, aes(x=Date))+geom_bar(aes(fill=LibraryStrategy), width=0.5)+theme_minimal()
     p <- p + labs(x = "Year")
     p <- p + labs(y = input$x )
@@ -303,20 +308,21 @@ shinyServer(function(input,output) {
           #"and platform" , input$y, "dataframe dimension", dim(filtered)[1] , " by ", dim(filtered)[2], " column names", unique(as.character(filtered$company)))
 
   })
-  
+
+   
   output$orgGraph <- renderPlot({
     filterOG <- reactTimeline()
     Top10 <-count(filterOG$Common.Name)
     print(Top10)
-    # Top10 <- Top10[order(-Top10$freq),]
-    # Top10 <- Top10[1:11,]
-    # Top10 <- na.omit(Top10)
+     Top10 <- Top10[order(-Top10$freq),]
+     Top10 <- Top10[1:11,]
+     Top10 <- na.omit(Top10)
     
     print(Top10)
     
-   # p <- ggplot(Top10, aes(x=Common.Name, y=freq))+geom_bar(aes(fill=Common.Name),stat="identity")+theme_minimal()
-   #  
-   # p
+    p <- ggplot(Top10, aes(x=Common.Name, y=freq))+geom_bar(aes(fill=Common.Name),stat="identity")+theme_minimal()
+     
+    p
     
     
   })

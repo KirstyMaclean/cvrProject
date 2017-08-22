@@ -6,11 +6,13 @@ library(leaflet)
 
 
 # input your data file
-dataset <- read.csv("completedata.txt", header= TRUE, sep=",")
+dataset <- read.csv("completeData.txt", header= TRUE, sep=",")
 geocode <- read.table("geoMerge.txt", header=TRUE, sep="\t")
 geocode <- na.omit(geocode)
+#print(names(dataset))
 
 #make for drop down menu to be in alphabetical order
+#print(dataset$Common.Name)
 dataset <- with(dataset,  dataset[order(dataset$Common.Name) , ])
 
 ## Define UI for application that plots random distributions
@@ -75,10 +77,8 @@ shinyUI(fluidPage(theme = shinytheme("cerulean"),
                       plotOutput("base"), 
                       br(), 
                       h5("Number of bases each platform model sequenced by year selected"),
-                      plotOutput("modelGraph"),
-                      br(),
-                      h5("Top 10 Organisms for selected year"),
-                      plotOutput("orgGraph")),
+                      plotOutput("modelGraph")
+                      ),
              
              
              tabPanel("Interactive Map", 
@@ -105,7 +105,7 @@ shinyUI(fluidPage(theme = shinytheme("cerulean"),
                       plotOutput("orgYearPlot")
                       
     # I used the line below to check whether the information was being passed and filtered - debug code -
-    #textOutput("text1")
+    # textOutput("text1")
  
     
     
